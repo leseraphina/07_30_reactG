@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>sort()</title>
+</head>
+<body>
+    <script>
+        // 배열 -> 정렬
+        //  아스크키 -> 숫자 -> 숫자, 알파벳, 한글
+        // 올리차순 -> 내림차순
+        const num = [1,4,11,2,67,9]
+        document.write('일반아스키모드: '+num.sort()+ '<br>')
+
+        const num1 = num.sort((a,b) => {return a-b})
+        document.write('올림차순:',num1,'<br>')
+        const num2 = num.sort((a,b) => {return b-a})
+        document.write('올림차순:',num2,'<br>')
+    </script>
+</body>
+</html>

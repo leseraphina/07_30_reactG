@@ -17,7 +17,27 @@ function App(){
   // state
   // list
   const [appintList,setAppointList] = useState([])
-  //  search
+  //  search : search 값, 속성정렬, 올,내림차순
+  const [query,setQuery] = useState('')
+  const [sortBy,setSortBy]= useState('petName')
+  const [orderBy,setOrderBy] = useState('asc')
+
+const filterAppintments = appintList.filter(
+  item => { 
+    return (
+    item.petName.toLowerCase().includes(query.toLowerCase()) ||
+    item.ownerName.toLowerCase().includes(query.toLowerCase()) ||
+    item.aptNotes.toLowerCase().includes(query.toLowerCase())
+  )}
+).sort(
+  (a,b) => {
+    let order = (orderBy === 'asc' ? 1 : -1)
+    return (
+      a[sortBy].toLowerCase() < b[sortBy].toLowerCase? -1 * order : 1*order
+    )
+}
+)
+
 
 // callBack
 const fetchData = useCallback(
@@ -34,11 +54,25 @@ useEffect(()=>{fetchData()},[fetchData])
     <article>
       <h3><BiArchive />
       welcome</h3>
-      <AddApointment /> 
-      <Search />
+      <AddApointment 
+      onSendAppointement ={
+        myApointment => setAppointList([...appintList,myApointment])
+      }
+      lastId={
+        appintList.reduce((max,item) => Number(item.id) > max ? Number(item.id) : max , 0 )
+      }
+      /> 
+      <Search
+        query = {query}
+        onQueryChange = {myQuery =>setQuery(myQuery)}
+        sortBy = {sortBy}
+        onSortChange ={mySort => setSortBy(mySort)}
+        orderBy = {orderBy}
+        onOrderChage ={myOrder => setOrderBy(myOrder)}
+         />
       <div id="list">
       <ul>
-         {appintList.map( 
+         {filterAppintments.map( 
           (appointment) => 
             (<AppInfo 
               key={appointment.id} 

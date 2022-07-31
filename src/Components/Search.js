@@ -1,37 +1,53 @@
 import React,{useState} from 'react'
 import {BiSearch,BiCaretDown,BiCheck} from 'react-icons/bi'
 
-function DropDown({toggleSort}){
+function DropDown({toggleSort,orderBy,onOrderChage,sortBy,onSortChange}){
     if(!toggleSort){return null}
     return (
         <ul>
-            <li>애기이름
-                <BiCheck />
+            <li
+            onClick = {()=> onSortChange('petName')}
+            >애기이름
+               {(sortBy === 'petName') && <BiCheck />}
             </li>
-            <li>예약자
-                <BiCheck />
+            <li
+             onClick = {()=> onSortChange('ownerName')}
+            >예약자
+                {(sortBy === 'ownerName') && <BiCheck />}
             </li>
-            <li>날자별
-                <BiCheck />
+            <li
+            onClick = {()=> onSortChange('aptDate')}
+            >날자별
+                {(sortBy === 'aptDate') && <BiCheck />}
             </li>
-            <l>올리차순
-                <BiCheck />
-            </l>
-            <li>내림차순
-                <BiCheck />
+            <li
+            onClick = {()=> onOrderChage('asc')}
+            >올림차순
+                {(orderBy === 'asc') && <BiCheck />}
+            </li>
+            <li
+            onClick = {()=> onOrderChage('desc')}
+            >내림차순
+                {(orderBy === 'desc') && <BiCheck />}
             </li>
         </ul>
     )
 }
 
 
-function Search(){
+function Search({query,onQueryChange,orderBy,onOrderChage,sortBy,onSortChange}){
     const [toggleSort, setToggleSort] =useState(false)
     return (
         <div id="search">
          <p>
             <BiSearch />
-            <input type="text" />
+            <input 
+                type="text"
+                value={query}
+                onChange={
+                    (event) =>{onQueryChange(event.target.value)}
+                } 
+                />
             <button 
                 type="button"
                 onClick={()=>{setToggleSort(!toggleSort)}}>
@@ -41,7 +57,12 @@ function Search(){
          </p>
 
          <DropDown
-            toggleSort= {toggleSort} />
+            toggleSort= {toggleSort}
+            orderBy = {orderBy}
+            sortBy = {sortBy}
+            onOrderChage = {myOrder => onOrderChage(myOrder)}
+            onSortChange={mySort => onSortChange(mySort)}
+             />
          </div>
     )
 }
